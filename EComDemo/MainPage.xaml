@@ -40,7 +40,12 @@
           ColumnSpacing="0"
           RowDefinitions="*,60">
         <AbsoluteLayout Background="#f2f4f6" Grid.Row="0">
+            <CollectionView AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"></CollectionView>
+            <controls:LoaderView AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"/>
             <ContentView AbsoluteLayout.LayoutBounds="0,0,1,1"
+
                          x:Name="filterview"
                          IsVisible="False"
                          AbsoluteLayout.LayoutFlags="All">
