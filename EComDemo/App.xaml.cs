@@ -10,7 +10,7 @@ namespace EComDemo
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage()) { BarBackgroundColor=Color.FromHex("#ffec19") };
         }
 
         protected override void OnStart()

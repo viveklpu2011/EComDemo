@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:EComDemo.Extension"
+             x:Class="EComDemo.Controls.RowListView">
+    <ContentView.Content>
+        <Frame VerticalOptions="Start"
+               HasShadow="False"
+               Padding="0"
+               Margin="5"
+               BackgroundColor="White"
+               CornerRadius="0">
+            <Grid HeightRequest="120"
+                  ColumnDefinitions="110,*">
+                <AbsoluteLayout Grid.Column="0">
+                    <Image Source="{local:EmbeddedImage EComDemo.Images.maxi.jpg}"
+                       
+                       Aspect="Fill"
+                           AbsoluteLayout.LayoutBounds="0,0,1,1"
+                           AbsoluteLayout.LayoutFlags="All"/>
+                    <ImageButton Source="{local:EmbeddedImage EComDemo.Images.heartblack.png}"
+                                 BackgroundColor="White"
+                                 WidthRequest="20"
+                                 HeightRequest="20"
+                                 AbsoluteLayout.LayoutBounds="1,0"
+                                 AbsoluteLayout.LayoutFlags="PositionProportional"
+                                 Margin="3"
+                                 CornerRadius="10"
+                                 />
+                </AbsoluteLayout>
+                
+                <StackLayout Margin="10,5" Grid.Column="1" Spacing="0">
+                    <Label Text="Biba"
+                           FontAttributes="Bold"
+                           FontSize="20"/>
+                     <Label Text="V Neck Wedding Dress"
+                           FontSize="20"/>
+                    <Label FontAttributes="Bold"
+                           FontSize="Medium">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="₹"/>
+                                <Span Text="5452"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <StackLayout VerticalOptions="EndAndExpand" Orientation="Horizontal">
+                        <Image Source="{local:EmbeddedImage EComDemo.Images.stars.png}"
+                               HeightRequest="45"
+                               VerticalOptions="End"/>
+                        <Label Text="[153]"
+                           FontSize="Medium"
+                               VerticalOptions="Center"
+                               TextColor="Gray"
+                               VerticalTextAlignment="Center"
+                               Margin="0,2,0,0"/>
+
+                        <ImageButton Source="{local:EmbeddedImage EComDemo.Images.rightarrow.png}"
+                               HeightRequest="45"
+                               VerticalOptions="End"
+                                     Margin="0,2,0,0"
+                                     BackgroundColor="Transparent"
+                               HorizontalOptions="EndAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>
