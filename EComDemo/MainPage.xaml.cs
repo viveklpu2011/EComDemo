@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EComDemo.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,8 +12,12 @@ namespace EComDemo
 {
     public partial class MainPage : ContentPage
     {
+        MainViewModel mainViewModel;
         public MainPage()
         {
+            mainViewModel = new MainViewModel(Navigation);
+            mainViewModel.PageLoad();
+            BindingContext = mainViewModel;
             InitializeComponent();
         }
 
@@ -46,6 +51,23 @@ namespace EComDemo
         void btnclear_Clicked(System.Object sender, System.EventArgs e)
         {
             filterview.IsVisible = false;
+            mainViewModel.FilterItem("");
+        }
+
+        private void Kids_Tapped(object sender, EventArgs e)
+        {
+            filterview.IsVisible = false;
+            mainViewModel.FilterItem("kids");
+        }
+        private void Female_Tapped(object sender, EventArgs e)
+        {
+            filterview.IsVisible = false;
+            mainViewModel.FilterItem("women");
+        }
+        private void Male_Tapped(object sender, EventArgs e)
+        {
+            filterview.IsVisible = false;
+            mainViewModel.FilterItem("men");
         }
     }
 }

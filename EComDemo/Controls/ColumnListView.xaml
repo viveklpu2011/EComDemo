@@ -10,10 +10,10 @@
                Margin="5"
                BackgroundColor="White"
                CornerRadius="8">
-            <Grid 
+            <Grid   
                   RowDefinitions="110,Auto">
                 <AbsoluteLayout Grid.Row="0">
-                    <Image Source="{local:EmbeddedImage EComDemo.Images.maxi.jpg}"
+                    <Image Source="{Binding image}"
                        
                        Aspect="Fill"
                            AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -33,7 +33,7 @@
                         <Image Source="{local:EmbeddedImage EComDemo.Images.stars.png}"
                                HeightRequest="45"
                                VerticalOptions="End"/>
-                        <Label Text="[153]"
+                        <Label Text="{Binding ratecount}"
                            FontSize="Medium"
                                VerticalOptions="Center"
                                TextColor="White"
@@ -43,10 +43,10 @@
                 </AbsoluteLayout>
                 
                <StackLayout Spacing="0" Grid.Row="1" Margin="10,5">
-                    <Label Text="Biba"
+                    <Label Text="{Binding title}"
                            FontAttributes="Bold"
                            FontSize="20"/>
-                     <Label Text="V Neck Wedding Dress"
+                    <Label Text="{Binding description}"
                             
                            FontSize="20"/>
                     <Label FontAttributes="Bold"
@@ -54,7 +54,7 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="₹"/>
-                                <Span Text="5452"/>
+                                <Span Text="{Binding price}"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>

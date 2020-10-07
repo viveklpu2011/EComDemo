@@ -40,9 +40,15 @@
           ColumnSpacing="0"
           RowDefinitions="*,60">
         <AbsoluteLayout Background="#f2f4f6" Grid.Row="0">
-            <CollectionView AbsoluteLayout.LayoutBounds="0,0,1,1"
-                            AbsoluteLayout.LayoutFlags="All"></CollectionView>
-            <controls:LoaderView AbsoluteLayout.LayoutBounds="0,0,1,1"
+            <CollectionView AbsoluteLayout.LayoutBounds="0,0,1,1" ItemsSource="{Binding Items}"
+                            AbsoluteLayout.LayoutFlags="All">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:RowListView/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <controls:LoaderView AbsoluteLayout.LayoutBounds="0,0,1,1" IsVisible="{Binding Loader}"
                             AbsoluteLayout.LayoutFlags="All"/>
             <ContentView AbsoluteLayout.LayoutBounds="0,0,1,1"
 
@@ -57,7 +63,7 @@
                           BackgroundColor="White"
                           RowDefinitions="Auto,Auto,Auto,Auto,Auto"
                           ColumnDefinitions="*,Auto">
-                        <Label Text="Filters(2)"
+                        <Label Text="{Binding CountFilter}"
                                Margin="10,15"
                                Grid.Column="0"
                                FontAttributes="Bold"
@@ -81,8 +87,12 @@
                                Margin="10"
                                Grid.Column="0"
                                Grid.Row="2"
-                               FontSize="18"/>
-                        <Image Source="{local:EmbeddedImage EComDemo.Images.check.png}"
+                               FontSize="18">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Male_Tapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Image Source="{local:EmbeddedImage EComDemo.Images.check.png}" IsVisible="{Binding MenFilter}"
                                Grid.Column="1"
                                Grid.Row="2"
                                WidthRequest="22"
@@ -94,8 +104,12 @@
                                Margin="10"
                                Grid.Column="0"
                                Grid.Row="3"
-                               FontSize="18"/>
-                        <Image Source="{local:EmbeddedImage EComDemo.Images.check.png}"
+                               FontSize="18">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Female_Tapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Image Source="{local:EmbeddedImage EComDemo.Images.check.png}" IsVisible="{Binding WomenFilter}"
                                Grid.Column="1"
                                Grid.Row="3"
                                WidthRequest="22"
@@ -107,8 +121,12 @@
                                Margin="10"
                                Grid.Column="0"
                                Grid.Row="4"
-                               FontSize="18"/>
-                        <Image Source="{local:EmbeddedImage EComDemo.Images.check.png}"
+                               FontSize="18">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer  Tapped="Kids_Tapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Image Source="{local:EmbeddedImage EComDemo.Images.check.png}" IsVisible="{Binding KidFilter}"
                                Grid.Column="1"
                                Grid.Row="4"
                                WidthRequest="22"
@@ -137,7 +155,7 @@
             <BoxView BackgroundColor="LightGray"
                      Grid.Column="1"
                      Margin="0,10"/>
-            <Button Text="Sort"
+            <Button Text="Sort" Command="{Binding SortCommand}"
                     Grid.Column="2"
                     BackgroundColor="Transparent"
                     FontAttributes="Bold"
