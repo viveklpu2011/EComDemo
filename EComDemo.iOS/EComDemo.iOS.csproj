@@ -63,6 +63,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Dependency\FileHelper.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
@@ -141,5 +142,17 @@
       <Project>{25851A3E-21BE-45B5-92C7-FE91266C699A}</Project>
       <Name>EComDemo</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\redheart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\heartblack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\list2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\list.png" />
   </ItemGroup>
 </Project>

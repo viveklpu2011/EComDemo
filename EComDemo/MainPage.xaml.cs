@@ -15,10 +15,10 @@ namespace EComDemo
         MainViewModel mainViewModel;
         public MainPage()
         {
+            InitializeComponent();
             mainViewModel = new MainViewModel(Navigation);
             mainViewModel.PageLoad();
             BindingContext = mainViewModel;
-            InitializeComponent();
         }
 
         protected override void OnAppearing()
@@ -68,6 +68,25 @@ namespace EComDemo
         {
             filterview.IsVisible = false;
             mainViewModel.FilterItem("men");
+        }
+
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            var data = sender as ImageButton;
+            var img = data.Source.ToString();
+            if (img == "File: list.png")
+            {
+                imgBtn.Source = "list2.png";
+
+                colView.IsVisible = true;
+                lstView.IsVisible = false;
+            }
+            else
+            {
+                imgBtn.Source = "list.png";
+                colView.IsVisible = false;
+                lstView.IsVisible = true;
+            }
         }
     }
 }

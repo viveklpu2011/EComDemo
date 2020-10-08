@@ -15,6 +15,7 @@ using Plugin.Toasts;
 using Newtonsoft.Json;
 using EComDemo.Utils;
 using System.Linq;
+using EComDemo.Models;
 
 namespace EComDemo.ViewModels
 {
@@ -25,7 +26,7 @@ namespace EComDemo.ViewModels
         public MainViewModel(INavigation navigation)
         {
             this.navigation = navigation;
-
+          
         }
 
         private bool loader
@@ -63,6 +64,44 @@ namespace EComDemo.ViewModels
             }
         }
 
+
+        private string totalItem
+        {
+            get;
+            set;
+        }
+        public string TotalItem
+        {
+            get { return totalItem; }
+            set
+            {
+                if (totalItem != value)
+                {
+                    totalItem = value;
+                    OnPropertyChanged("TotalItem");
+                }
+            }
+        }
+        private string itemName
+        {
+            get;
+            set;
+        }
+        public string ItemName
+        {
+            get { return itemName; }
+            set
+            {
+                if (itemName != value)
+                {
+                    itemName = value;
+                    OnPropertyChanged("ItemName");
+                }
+            }
+        }
+
+
+
         private ObservableCollection<ProductData> _items = new ObservableCollection<ProductData>();
         public ObservableCollection<ProductData> Items
         {
@@ -83,8 +122,7 @@ namespace EComDemo.ViewModels
         {
             CountFilter = "Filters(0)";
             Loader = true;
-
-
+            
             try
             {
                 if (!HttpRequest.CheckConnection())
@@ -94,7 +132,7 @@ namespace EComDemo.ViewModels
                     return;
                 }
 
-                // LoggedIn objUser = App.Database.GetLoggedInUser();
+
 
                 Items.Clear();
                 Items = new ObservableCollection<ProductData>();
@@ -108,11 +146,20 @@ namespace EComDemo.ViewModels
 
                     foreach (var item in serviceResult.data)
                     {
+                        FavoriteItem objUser = App.Database.GetProduct(item.id);
+                        string Favorite = "heartblack.png";
+                        if (objUser != null)
+                        {
+                            Favorite = "redheart.png";
+                        }
 
-                        Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                        
+
+                        Items.Add(new ProductData {  favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                     }
-
+                    TotalItem = serviceResult.data.Count.ToString() + " Products";
+                    ItemName = serviceResult.data.FirstOrDefault().name;
                 }
                 Loader = false;
             }
@@ -132,57 +179,7 @@ namespace EComDemo.ViewModels
             {
                 return new Command(async (data) =>
                 {
-                    //Loader = true;
 
-
-                    //try
-                    //{
-                    //    if (!HttpRequest.CheckConnection())
-                    //    {
-                    //        await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error, "Error", "Device is not connected with Internet. Please check your network connection", TimeSpan.FromSeconds(2));
-
-                    //        return;
-                    //    }
-
-
-
-                    //    Items.Clear();
-                    //    Items = new ObservableCollection<ProductData>();
-                    //    string url = ServiceConfigrations.BaseUrl + ServiceConfigrations.OrderUrl;
-
-                    //    var userinfo = await HttpRequest.GetRequest(url);
-                    //    var serviceResult = JsonConvert.DeserializeObject<ProductList>(userinfo.Result);
-
-                    //    if (serviceResult.status)
-                    //    {
-                    //        if (Order == false)
-                    //        {
-                    //            foreach (var item in serviceResult.data.OrderBy(x => x.title))
-                    //            {
-
-                    //                Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
-
-                    //            }
-                    //            Order = true;
-                    //        }
-                    //        else
-                    //        {
-                    //            foreach (var item in serviceResult.data.OrderByDescending(x => x.title))
-                    //            {
-
-                    //                Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
-
-                    //            }
-                    //            Order = false;
-                    //        }
-
-                    //    }
-                    //    Loader = false;
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    Loader = false;
-                    //}
 
                     Loader = true;
 
@@ -196,7 +193,7 @@ namespace EComDemo.ViewModels
                             return;
                         }
 
-                        // LoggedIn objUser = App.Database.GetLoggedInUser();
+
 
                         Items.Clear();
                         Items = new ObservableCollection<ProductData>();
@@ -258,12 +255,18 @@ namespace EComDemo.ViewModels
 
 
 
+
                             if (Order == false)
                             {
                                 foreach (var item in cn.OrderBy(x => x.title))
                                 {
-
-                                    Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                                    FavoriteItem objUser = App.Database.GetProduct(item.id);
+                                    string Favorite = "heartblack.png";
+                                    if (objUser != null)
+                                    {
+                                        Favorite = "redheart.png";
+                                    }
+                                    Items.Add(new ProductData {  favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                                 }
                                 Order = true;
@@ -272,8 +275,13 @@ namespace EComDemo.ViewModels
                             {
                                 foreach (var item in cn.OrderByDescending(x => x.title))
                                 {
-
-                                    Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                                    FavoriteItem objUser = App.Database.GetProduct(item.id);
+                                    string Favorite = "heartblack.png";
+                                    if (objUser != null)
+                                    {
+                                        Favorite = "redheart.png";
+                                    }
+                                    Items.Add(new ProductData {  favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                                 }
                                 Order = false;
@@ -291,169 +299,6 @@ namespace EComDemo.ViewModels
         }
 
 
-        public async void KidsItem()
-        {
-            Loader = true;
-
-
-            try
-            {
-                if (!HttpRequest.CheckConnection())
-                {
-                    await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error, "Error", "Device is not connected with Internet. Please check your network connection", TimeSpan.FromSeconds(2));
-
-                    return;
-                }
-
-                // LoggedIn objUser = App.Database.GetLoggedInUser();
-
-                Items.Clear();
-                Items = new ObservableCollection<ProductData>();
-                string url = ServiceConfigrations.BaseUrl + ServiceConfigrations.OrderUrl;
-
-                var userinfo = await HttpRequest.GetRequest(url);
-                var serviceResult = JsonConvert.DeserializeObject<ProductList>(userinfo.Result);
-
-                if (serviceResult.status)
-                {
-                    if (Order == true)
-                    {
-                        foreach (var item in serviceResult.data.Where(x => x.category == "kids").OrderBy(x => x.title))
-                        {
-
-                            Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
-
-                        }
-
-                    }
-                    else
-                    {
-                        foreach (var item in serviceResult.data.Where(x => x.category == "kids").OrderByDescending(x => x.title))
-                        {
-
-                            Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
-
-                        }
-                        Order = false;
-                    }
-
-                }
-                Loader = false;
-            }
-            catch (Exception ex)
-            {
-                Loader = false;
-            }
-        }
-
-        public async void FemaleItem()
-        {
-            Loader = true;
-
-
-            try
-            {
-                if (!HttpRequest.CheckConnection())
-                {
-                    await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error, "Error", "Device is not connected with Internet. Please check your network connection", TimeSpan.FromSeconds(2));
-
-                    return;
-                }
-
-                // LoggedIn objUser = App.Database.GetLoggedInUser();
-
-                Items.Clear();
-                Items = new ObservableCollection<ProductData>();
-                string url = ServiceConfigrations.BaseUrl + ServiceConfigrations.OrderUrl;
-
-                var userinfo = await HttpRequest.GetRequest(url);
-                var serviceResult = JsonConvert.DeserializeObject<ProductList>(userinfo.Result);
-
-                if (serviceResult.status)
-                {
-                    if (Order == true)
-                    {
-                        foreach (var item in serviceResult.data.Where(x => x.category == "women").OrderBy(x => x.title))
-                        {
-
-                            Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
-
-                        }
-
-                    }
-                    else
-                    {
-                        foreach (var item in serviceResult.data.Where(x => x.category == "women").OrderByDescending(x => x.title))
-                        {
-
-                            Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
-
-                        }
-                        Order = false;
-                    }
-
-                }
-                Loader = false;
-            }
-            catch (Exception ex)
-            {
-                Loader = false;
-            }
-        }
-        public async void MaleItem()
-        {
-            Loader = true;
-
-
-            try
-            {
-                if (!HttpRequest.CheckConnection())
-                {
-                    await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error, "Error", "Device is not connected with Internet. Please check your network connection", TimeSpan.FromSeconds(2));
-
-                    return;
-                }
-
-                // LoggedIn objUser = App.Database.GetLoggedInUser();
-
-                Items.Clear();
-                Items = new ObservableCollection<ProductData>();
-                string url = ServiceConfigrations.BaseUrl + ServiceConfigrations.OrderUrl;
-
-                var userinfo = await HttpRequest.GetRequest(url);
-                var serviceResult = JsonConvert.DeserializeObject<ProductList>(userinfo.Result);
-
-                if (serviceResult.status)
-                {
-                    if (Order == true)
-                    {
-                        foreach (var item in serviceResult.data.Where(x => x.category == "men").OrderBy(x => x.title))
-                        {
-
-                            Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
-
-                        }
-
-                    }
-                    else
-                    {
-                        foreach (var item in serviceResult.data.Where(x => x.category == "men").OrderByDescending(x => x.title))
-                        {
-
-                            Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
-
-                        }
-                        Order = false;
-                    }
-
-                }
-                Loader = false;
-            }
-            catch (Exception ex)
-            {
-                Loader = false;
-            }
-        }
 
 
 
@@ -535,7 +380,7 @@ namespace EComDemo.ViewModels
 
             if (type == "women")
             {
-                if(WomenFilter == false)
+                if (WomenFilter == false)
                 {
                     WomenFilter = true;
                 }
@@ -544,9 +389,9 @@ namespace EComDemo.ViewModels
                     WomenFilter = false;
                 }
             }
-           else if (type == "men")
+            else if (type == "men")
             {
-               
+
                 if (MenFilter == false)
                 {
                     MenFilter = true;
@@ -587,7 +432,7 @@ namespace EComDemo.ViewModels
                     return;
                 }
 
-                // LoggedIn objUser = App.Database.GetLoggedInUser();
+
 
                 Items.Clear();
                 Items = new ObservableCollection<ProductData>();
@@ -633,7 +478,7 @@ namespace EComDemo.ViewModels
                         CountFilter = "Filters(2)";
                         cn = serviceResult.data.Where(x => x.category == "women" || x.category == "kids").ToList();
                     }
-                    
+
                     //
 
                     if (MenFilter && KidFilter)
@@ -641,7 +486,7 @@ namespace EComDemo.ViewModels
                         CountFilter = "Filters(2)";
                         cn = serviceResult.data.Where(x => x.category == "men" || x.category == "kids").ToList();
                     }
-                    if (MenFilter && KidFilter&& WomenFilter)
+                    if (MenFilter && KidFilter && WomenFilter)
                     {
                         CountFilter = "Filters(3)";
                         cn = serviceResult.data.Where(x => x.category == "men" || x.category == "kids" || x.category == "women").ToList();
@@ -653,8 +498,13 @@ namespace EComDemo.ViewModels
                     {
                         foreach (var item in cn.OrderBy(x => x.title))
                         {
-
-                            Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                            FavoriteItem objUser = App.Database.GetProduct(item.id);
+                            string Favorite = "heartblack.png";
+                            if (objUser != null)
+                            {
+                                Favorite = "redheart.png";
+                            }
+                            Items.Add(new ProductData {  favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                         }
 
@@ -663,13 +513,19 @@ namespace EComDemo.ViewModels
                     {
                         foreach (var item in cn.OrderByDescending(x => x.title))
                         {
-
-                            Items.Add(new ProductData { category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                            FavoriteItem objUser = App.Database.GetProduct(item.id);
+                            string Favorite = "heartblack.png";
+                            if (objUser != null)
+                            {
+                                Favorite = "redheart.png";
+                            }
+                            Items.Add(new ProductData {   favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                         }
-                      
-                    }
 
+                    }
+                    TotalItem = Items.Count.ToString() + " Products";
+                    ItemName = Items.FirstOrDefault().name;
                 }
                 Loader = false;
             }
@@ -679,5 +535,47 @@ namespace EComDemo.ViewModels
             }
         }
 
-    }
+
+        public Command FavoriteCommand
+        {
+            get
+            {
+                return new Command(async (data) =>
+                {
+                    var selectData = data as ProductData;
+                    var item = Items.Where(x => x.id == selectData.id).FirstOrDefault();
+                    var index = Items.IndexOf(item);
+
+                    Items.RemoveAt(index);
+
+                    string Favorite = "";
+                    if (item.favorite == "heartblack.png")
+                    {
+                        Favorite = "redheart.png";
+                        FavoriteItem obj = new FavoriteItem();
+                        obj.ProductId = item.id;
+                        App.Database.SaveProduct(obj);
+                    }
+                    else
+                    {
+                        Favorite = "heartblack.png";
+                        App.Database.ClearProduct(item.id);
+                    }
+                      Items.Insert(index, new ProductData {   favorite = Favorite, category = item.category, description = item.description, id = item.id, image =item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+
+
+                });
+            }
+        }
+
+
+
+        
+
+
+
+
+       
+       
+        }
 }

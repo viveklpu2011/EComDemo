@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:EComDemo.Extension"
              x:Class="EComDemo.Controls.RowListView">
     <ContentView.Content>
-        <Frame VerticalOptions="Start"
+        <Frame VerticalOptions="Start"  x:Name="lstView"
                HasShadow="False"
                Padding="0"
                Margin="5"
@@ -12,12 +12,15 @@
             <Grid HeightRequest="120"
                   ColumnDefinitions="110,*">
                 <AbsoluteLayout Grid.Column="0">
+                    
                     <Image Source="{Binding image}"
                        
                        Aspect="Fill"
                            AbsoluteLayout.LayoutBounds="0,0,1,1"
                            AbsoluteLayout.LayoutFlags="All"/>
-                    <ImageButton Source="{local:EmbeddedImage EComDemo.Images.heartblack.png}"
+                     
+
+                        <ImageButton    Source="{Binding favorite}"  
                                  BackgroundColor="White"
                                  WidthRequest="20"
                                  HeightRequest="20"
@@ -26,6 +29,7 @@
                                  Margin="3"
                                  CornerRadius="10"
                                  />
+                    
                 </AbsoluteLayout>
                 
                 <StackLayout Margin="10,5" Grid.Column="1" Spacing="0">

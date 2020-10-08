@@ -15,6 +15,10 @@ namespace EComDemo.ResponseModels
         public decimal price { get; set; }
         public int ratecount { get; set; }
         public string category { get; set; }
+        public string favorite { get; set; }
+
+
+       
 
     }
     public class ProductList

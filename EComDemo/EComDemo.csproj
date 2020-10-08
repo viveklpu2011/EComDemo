@@ -23,7 +23,6 @@
     <Folder Include="Images\" />
     <Folder Include="Extension\" />
     <Folder Include="Controls\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Images\back.png" />
