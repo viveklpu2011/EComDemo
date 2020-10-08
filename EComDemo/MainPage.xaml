@@ -43,25 +43,26 @@
 
 
             <CollectionView IsVisible="false" AbsoluteLayout.LayoutBounds="0,0,1,1" ItemsSource="{Binding Items}"   x:Name="colView"  ItemsLayout="VerticalGrid, 2"   
-                            AbsoluteLayout.LayoutFlags="All">
+                            AbsoluteLayout.LayoutFlags="All" Margin="5">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <!--<controls:RowListView/>-->
                        
-                       
+                       <StackLayout Margin="4">
                             <Frame    VerticalOptions="Start"
                HasShadow="False"
                 HorizontalOptions="Start"
                Padding="0"
-               Margin="5"
+               Margin="3,0"
                BackgroundColor="White"
                CornerRadius="8">
                             <Grid   
-                  RowDefinitions="110,Auto">
+                  RowDefinitions="160,Auto">
                                 <AbsoluteLayout Grid.Row="0">
                                     <Image Source="{Binding image}"
                        
                        Aspect="Fill"
+
                            AbsoluteLayout.LayoutBounds="0,0,1,1"
                            AbsoluteLayout.LayoutFlags="All"/>
                                     <ImageButton Source="{Binding favorite}"   Command="{Binding Source={x:Reference  colView}, Path=BindingContext.FavoriteCommand}"
@@ -109,26 +110,27 @@
                             </Grid>
                         </Frame>
                        
-                        
+                        </StackLayout>
                         
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
             <CollectionView AbsoluteLayout.LayoutBounds="0,0,1,1" ItemsSource="{Binding Items}"   x:Name="lstView"    
-                            AbsoluteLayout.LayoutFlags="All">
+                            AbsoluteLayout.LayoutFlags="All" Margin="5" BackgroundColor="Transparent">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <!--<controls:RowListView/>-->
 
-                         
+                         <StackLayout Margin="4">
                             <Frame     VerticalOptions="Start" 
                HasShadow="False"
-               Padding="0,2,0,2"
-               Margin="10"
+               Padding="0"
+               
+                            HeightRequest="{OnPlatform Android='120',iOS='140'}"           
                BackgroundColor="White"
                CornerRadius="0">
-                                <Grid HeightRequest="120"
+                                <Grid 
                   ColumnDefinitions="110,*">
                                     <AbsoluteLayout Grid.Column="0">
 
@@ -189,7 +191,7 @@
                                 </Grid>
                             </Frame>
 
-                           
+                           </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

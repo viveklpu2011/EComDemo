@@ -478,9 +478,6 @@ namespace EComDemo.ViewModels
                         CountFilter = "Filters(2)";
                         cn = serviceResult.data.Where(x => x.category == "women" || x.category == "kids").ToList();
                     }
-
-                    //
-
                     if (MenFilter && KidFilter)
                     {
                         CountFilter = "Filters(2)";
