@@ -22,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Images\" />
     <Folder Include="Extension\" />
-    <Folder Include="Controls\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Images\back.png" />

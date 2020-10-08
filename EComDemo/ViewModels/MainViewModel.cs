@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using EComDemo.Utils;
 using System.Linq;
 using EComDemo.Models;
+using System.Threading.Tasks;
 
 namespace EComDemo.ViewModels
 {
@@ -26,7 +27,6 @@ namespace EComDemo.ViewModels
         public MainViewModel(INavigation navigation)
         {
             this.navigation = navigation;
-          
         }
 
         private bool loader
@@ -375,6 +375,9 @@ namespace EComDemo.ViewModels
             }
         }
 
+
+
+
         public async void FilterItem(string type)
         {
 
@@ -533,46 +536,150 @@ namespace EComDemo.ViewModels
         }
 
 
-        public Command FavoriteCommand
+
+
+ 
+
+
+
+         
+
+
+
+        public async void ChangeLyt()
         {
-            get
+             
+            Loader = true;
+
+
+            try
             {
-                return new Command(async (data) =>
+                if (!HttpRequest.CheckConnection())
                 {
-                    var selectData = data as ProductData;
-                    var item = Items.Where(x => x.id == selectData.id).FirstOrDefault();
-                    var index = Items.IndexOf(item);
+                    await DependencyService.Get<IToastNotificator>().Notify(ToastNotificationType.Error, "Error", "Device is not connected with Internet. Please check your network connection", TimeSpan.FromSeconds(2));
 
-                    Items.RemoveAt(index);
+                    return;
+                }
 
-                    string Favorite = "";
-                    if (item.favorite == "heartblack.png")
+
+
+                Items.Clear();
+                Items = new ObservableCollection<ProductData>();
+                string url = ServiceConfigrations.BaseUrl + ServiceConfigrations.OrderUrl;
+
+                var userinfo = await HttpRequest.GetRequest(url);
+                var serviceResult = JsonConvert.DeserializeObject<ProductList>(userinfo.Result);
+
+                if (serviceResult.status)
+                {
+                    var cn = serviceResult.data;
+                    CountFilter = "Filters(0)";
+                    //
+                    if (WomenFilter)
                     {
-                        Favorite = "redheart.png";
-                        FavoriteItem obj = new FavoriteItem();
-                        obj.ProductId = item.id;
-                        App.Database.SaveProduct(obj);
+                        CountFilter = "Filters(1)";
+                        cn = serviceResult.data.Where(x => x.category == "women").ToList();
+                    }
+                    if (MenFilter)
+                    {
+                        CountFilter = "Filters(1)";
+                        cn = serviceResult.data.Where(x => x.category == "men").ToList();
+                    }
+                    if (KidFilter)
+                    {
+                        CountFilter = "Filters(1)";
+                        cn = serviceResult.data.Where(x => x.category == "kids").ToList();
+                    }
+                    if (WomenFilter)
+                    {
+                        CountFilter = "Filters(1)";
+                        cn = serviceResult.data.Where(x => x.category == "women").ToList();
+                    }
+
+                    //
+                    if (WomenFilter && MenFilter)
+                    {
+                        CountFilter = "Filters(2)";
+                        cn = serviceResult.data.Where(x => x.category == "women" || x.category == "men").ToList();
+                    }
+                    if (WomenFilter && KidFilter)
+                    {
+                        CountFilter = "Filters(2)";
+                        cn = serviceResult.data.Where(x => x.category == "women" || x.category == "kids").ToList();
+                    }
+                    if (MenFilter && KidFilter)
+                    {
+                        CountFilter = "Filters(2)";
+                        cn = serviceResult.data.Where(x => x.category == "men" || x.category == "kids").ToList();
+                    }
+                    if (MenFilter && KidFilter && WomenFilter)
+                    {
+                        CountFilter = "Filters(3)";
+                        cn = serviceResult.data.Where(x => x.category == "men" || x.category == "kids" || x.category == "women").ToList();
+                    }
+
+
+
+                    if (Order == true)
+                    {
+                        foreach (var item in cn)
+                        {
+                            FavoriteItem objUser = App.Database.GetProduct(item.id);
+                            string Favorite = "heartblack.png";
+                            if (objUser != null)
+                            {
+                                Favorite = "redheart.png";
+                            }
+                            Items.Add(new ProductData { favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+
+                        }
+
                     }
                     else
                     {
-                        Favorite = "heartblack.png";
-                        App.Database.ClearProduct(item.id);
+                        foreach (var item in cn)
+                        {
+                            FavoriteItem objUser = App.Database.GetProduct(item.id);
+                            string Favorite = "heartblack.png";
+                            if (objUser != null)
+                            {
+                                Favorite = "redheart.png";
+                            }
+                            Items.Add(new ProductData { favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+
+                        }
+
                     }
-                      Items.Insert(index, new ProductData {   favorite = Favorite, category = item.category, description = item.description, id = item.id, image =item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                    TotalItem = Items.Count.ToString() + " Products";
+                    ItemName = Items.FirstOrDefault().name;
+                }
+                Loader = false;
+            }
+            catch (Exception ex)
+            {
+                Loader = false;
+            }
+        }
 
 
-                });
+        public void Favorite(int type,int id)
+        {
+             
+            if (type == 1)
+            {
+                
+                FavoriteItem obj = new FavoriteItem();
+                obj.ProductId = id;
+                App.Database.SaveProduct(obj);
+            }
+            else
+            {
+                
+                App.Database.ClearProduct(id);
             }
         }
 
 
 
-        
-
-
-
-
-       
-       
-        }
+    }
 }

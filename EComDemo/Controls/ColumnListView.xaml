@@ -18,15 +18,18 @@
                        Aspect="Fill"
                            AbsoluteLayout.LayoutBounds="0,0,1,1"
                            AbsoluteLayout.LayoutFlags="All"/>
-                    <ImageButton Source="{local:EmbeddedImage EComDemo.Images.heartblack.png}"
+                    <StackLayout  AbsoluteLayout.LayoutBounds="1,0"
+                                 AbsoluteLayout.LayoutFlags="PositionProportional">
+                        <ImageButton  Source="{Binding favorite}"   Clicked="ImageButton_Clicked"
                                  BackgroundColor="White"
                                  WidthRequest="20"
                                  HeightRequest="20"
-                                 AbsoluteLayout.LayoutBounds="1,0"
-                                 AbsoluteLayout.LayoutFlags="PositionProportional"
+                                
                                  Margin="3"
                                  CornerRadius="10"
                                  />
+                        <Label Text="{Binding id}" IsVisible="false"/>
+                    </StackLayout>
                     <StackLayout Orientation="Horizontal" AbsoluteLayout.LayoutBounds="1,1"
                                  Margin="10,0"
                                  AbsoluteLayout.LayoutFlags="PositionProportional">

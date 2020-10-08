@@ -1,4 +1,5 @@
-﻿using EComDemo.ViewModels;
+﻿using EComDemo.Controls;
+using EComDemo.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,13 +13,18 @@ namespace EComDemo
 {
     public partial class MainPage : ContentPage
     {
+        public static bool col = false;
         MainViewModel mainViewModel;
+        RowListView rlw = new RowListView();
         public MainPage()
         {
             InitializeComponent();
             mainViewModel = new MainViewModel(Navigation);
             mainViewModel.PageLoad();
             BindingContext = mainViewModel;
+            //rlw.BindingContext = mainViewModel;
+
+           
         }
 
         protected override void OnAppearing()
@@ -72,21 +78,33 @@ namespace EComDemo
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
+            if (col == true)
+            {
+                col = false;
+                stl.Span = 1;
+            }
+            else
+            {
+                col = true;
+                stl.Span = 2;
+            }
+            mainViewModel.ChangeLyt( );
+
             var data = sender as ImageButton;
             var img = data.Source.ToString();
             if (img == "File: list.png")
             {
                 imgBtn.Source = "list2.png";
 
-                colView.IsVisible = true;
-                lstView.IsVisible = false;
+               
             }
             else
             {
                 imgBtn.Source = "list.png";
-                colView.IsVisible = false;
-                lstView.IsVisible = true;
+                
             }
         }
+
+       
     }
 }
