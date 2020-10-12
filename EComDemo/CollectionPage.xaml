@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:EComDemo.Extension" xmlns:controls="clr-namespace:EComDemo.Controls"
+             x:Class="EComDemo.CollectionPage" Title="Select product">
+     
+    <Grid RowSpacing="0"
+          x:Name="mainlayout"
+          ColumnSpacing="0"
+          RowDefinitions="*,60">
+        <AbsoluteLayout Background="#f2f4f6" Grid.Row="0">
+
+
+            <CollectionView   AbsoluteLayout.LayoutBounds="0,0,1,1" ItemsSource="{Binding Items}"   x:Name="colView"  ItemsLayout="VerticalGrid, 2"   
+                            AbsoluteLayout.LayoutFlags="All">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                        <Frame    VerticalOptions="Start"
+               HasShadow="False"
+                HorizontalOptions="Start"
+               Padding="0"
+               Margin="5"
+               BackgroundColor="White"
+               CornerRadius="2">
+                            <Grid   
+                  RowDefinitions="110,Auto">
+                                <AbsoluteLayout Grid.Row="0">
+                                    <Image Source="{Binding image}"
+                       
+                       Aspect="Fill"
+                           AbsoluteLayout.LayoutBounds="0,0,1,1"
+                           AbsoluteLayout.LayoutFlags="All"/>
+                                        <ImageButton Source="delete.png" Padding="4"  Command="{Binding Source={x:Reference  colView}, Path=BindingContext.FavoriteCommand}"
+                               CommandParameter="{Binding .}"
+                                 BackgroundColor="White"
+                                 WidthRequest="23"
+                                 HeightRequest="23"
+                                 AbsoluteLayout.LayoutBounds="1,0"
+                                 AbsoluteLayout.LayoutFlags="PositionProportional"
+                                 Margin="3"
+                                 CornerRadius="10"
+                                 />
+                                    <!--<StackLayout Orientation="Horizontal" AbsoluteLayout.LayoutBounds="1,1"
+                                 Margin="10,0"
+                                 AbsoluteLayout.LayoutFlags="PositionProportional">
+                                        <Image Source="{local:EmbeddedImage EComDemo.Images.stars.png}"
+                               HeightRequest="45"
+                               VerticalOptions="End"/>
+                                        <Label Text="{Binding ratecount}"
+                           FontSize="Medium"
+                               VerticalOptions="Center"
+                               TextColor="White"
+                               FontAttributes="Bold"
+                               VerticalTextAlignment="Center"/>
+                                    </StackLayout>-->
+                                </AbsoluteLayout>
+
+                                <StackLayout Spacing="0" Grid.Row="1" Margin="10,5">
+                                    <Label Text="{Binding title}"
+                           FontAttributes="Bold"
+                           FontSize="20"/>
+                                    <Label Text="{Binding description}"
+                            
+                           FontSize="20"/>
+                                    <Label FontAttributes="Bold"
+                           FontSize="Medium">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="₹"/>
+                                                <Span Text="{Binding price}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
+
+
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+ 
+
+
+
+            <controls:LoaderView AbsoluteLayout.LayoutBounds="0,0,1,1" IsVisible="{Binding Loader}"
+                            AbsoluteLayout.LayoutFlags="All"/>
+            
+        </AbsoluteLayout>
+        
+    </Grid>
+</ContentPage>

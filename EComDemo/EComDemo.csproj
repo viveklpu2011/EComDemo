@@ -57,4 +57,15 @@
     <EmbeddedResource Include="Images\maxi.jpg" />
     <EmbeddedResource Include="Images\stars.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="AddCollectionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CollectionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GroupPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

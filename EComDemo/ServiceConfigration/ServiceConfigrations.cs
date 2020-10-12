@@ -10,6 +10,7 @@ namespace EComDemo.ServiceConfigration
         public static string BaseImg => "http://18.222.241.246/VoteAppApi/Uploads/";
         
         public static string OrderUrl => "api/uDriver/getAllProduct/";
- 
+        public static string BProductUrl => "api/uDriver/getAllBProduct/";
+
     }
 }

@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:EComDemo.Extension" xmlns:controls="clr-namespace:EComDemo.Controls"
+             x:Class="EComDemo.GroupPage">
+    <NavigationPage.TitleView>
+        <Grid ColumnDefinitions="40,*,50">
+            <!--<ImageButton Source="{local:EmbeddedImage EComDemo.Images.back.png}"
+                   Aspect="Fill"
+                    WidthRequest="30"
+                          BackgroundColor="Transparent"
+                    HorizontalOptions="Start"
+                    HeightRequest="25"
+                    Grid.Column="0"/>-->
+            <StackLayout Grid.Column="1"
+                         Padding="5,0"
+                         HorizontalOptions="FillAndExpand"
+                         Spacing="0">
+
+                <Label Text="{Binding ItemName}"
+                       HorizontalOptions="StartAndExpand"
+                       FontSize="20"
+                       FontAttributes="Bold"/>
+                <Label Text="{Binding TotalItem}"
+                       HorizontalOptions="StartAndExpand"
+                       FontSize="16"/>
+            </StackLayout>
+            <!--<ImageButton Source="{local:EmbeddedImage EComDemo.Images.search.png}"
+                   Aspect="AspectFill"
+                    WidthRequest="34"
+                          BackgroundColor="Transparent"
+                    HorizontalOptions="End"
+                    HeightRequest="30"
+                         Margin="0,0,10,0"
+                    Grid.Column="2"/>-->
+        </Grid>
+    </NavigationPage.TitleView>
+    <Grid RowSpacing="0"
+          x:Name="mainlayout"
+          ColumnSpacing="0"
+          RowDefinitions="*,60">
+        <AbsoluteLayout Background="#f2f4f6" Grid.Row="0">
+
+
+
+
+            <CollectionView   AbsoluteLayout.LayoutBounds="0,0,1,1" ItemsSource="{Binding Items, Mode=OneWay}" x:Name="colView"      ItemsLayout="VerticalGrid, 2"    
+                            AbsoluteLayout.LayoutFlags="All" Margin="5" BackgroundColor="Transparent">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            
+                        <StackLayout IsVisible="{Binding ProductCollection}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            
+                       
+
+                        <Frame    VerticalOptions="Start"
+               HasShadow="False"
+                HorizontalOptions="Start"
+               Padding="0"
+               Margin="5"
+               BackgroundColor="White"
+               CornerRadius="0">
+                                <Grid   
+                  RowDefinitions="Auto,220">
+                                    <StackLayout Spacing="0" Grid.Row="0" Margin="10,5">
+                                        <Label Text="{Binding PName}" TextColor="Black"     FontSize="18"/>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{Binding TotalProduct}" TextColor="Black"     FontSize="14"/>
+                                            <Label Text="Products" TextColor="Black"     FontSize="14"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                    <StackLayout HorizontalOptions="CenterAndExpand" Grid.Row="1">
+                                        <StackLayout Orientation="Horizontal">
+                                    <Image Source="{Binding PImg1}"
+                       
+                       Aspect="Fill"
+                          />
+                                            <Image Source="{Binding PImg2}"
+                       
+                       Aspect="Fill"
+                          />
+
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Image Source="{Binding PImg3}"
+                       
+                       Aspect="Fill"
+                          />
+                                            <Image Source="{Binding PImg4}"
+                       
+                       Aspect="Fill"
+                          />
+
+                                        </StackLayout>
+
+                                    </StackLayout>
+
+                              
+                            </Grid>
+
+
+                                 
+                            </Frame>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer  Command="{Binding Source={x:Reference colView}, Path=BindingContext.SelectCommand}"
+                               CommandParameter="{Binding .}" />
+                                </StackLayout.GestureRecognizers>
+
+                            </StackLayout>
+
+
+
+                            <StackLayout IsVisible="{Binding NewCollection}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+
+
+                            <Frame    VerticalOptions="Start"
+               HasShadow="False"
+                HorizontalOptions="Start"
+               Padding="0"
+               Margin="5"
+               BackgroundColor="White"
+               CornerRadius="0">
+                                <Grid   
+                  RowDefinitions="220">
+                                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Spacing="10" Grid.Row="0">
+                                            <Image HeightRequest="40" WidthRequest="40" Source="{Binding PImg1}"/>
+                                            <Label Text="{Binding PName}" TextColor="Black"     FontSize="18"/>
+                                    </StackLayout>
+                                </Grid>
+
+
+
+                            </Frame>
+
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer  Command="{Binding Source={x:Reference colView}, Path=BindingContext.SelectCommand}"
+                               CommandParameter="{Binding .}" />
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+
+
+
+            <controls:LoaderView AbsoluteLayout.LayoutBounds="0,0,1,1" IsVisible="{Binding Loader}"
+                            AbsoluteLayout.LayoutFlags="All"/>
+             
+        </AbsoluteLayout>
+         
+    </Grid>
+</ContentPage>

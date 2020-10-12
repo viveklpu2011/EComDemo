@@ -155,4 +155,10 @@
   <ItemGroup>
     <BundleResource Include="Resources\list.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\add.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\delete.png" />
+  </ItemGroup>
 </Project>
