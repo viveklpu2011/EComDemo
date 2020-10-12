@@ -4,8 +4,36 @@
              x:Class="EComDemo.AddCollectionPage" Title="Create a New Collection">
     <ContentPage.Content>
         <StackLayout Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <Entry FontSize="Medium" Placeholder="Collection Name"/>
-            <Button CornerRadius="3" FontSize="Medium" TextColor="Black" BackgroundColor="#86f7f5" Text="Create Collection"/>
+            <Entry x:Name="txtCollection" FontSize="Medium" Placeholder="Collection Name"/>
+            <Button CornerRadius="3" FontAttributes="Bold" FontSize="Medium" TextColor="Black" BackgroundColor="#86f7f5" Text="Create Collection"/>
+
+            <Label Margin="0,20,0,0" Text="Popular Ideas" TextColor="Black" FontSize="Medium"/>
+            <ListView ItemSelected="itemLst_ItemSelected"  ItemsSource="{Binding Item,Mode=TwoWay}"     x:Name="itemLst"
+                             
+                                
+                             
+                            
+                               HasUnevenRows="True"
+                           
+                              VerticalScrollBarVisibility="Never"
+                              SeparatorVisibility="None">
+
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+
+
+                        <ViewCell>
+                            <StackLayout Padding="0,5,0,5">
+                                <Label Text="{Binding .}" FontSize="Medium"/>
+                            </StackLayout>
+                        </ViewCell>
+
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

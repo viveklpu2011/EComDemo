@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace EComDemo.ViewModels
 {
-    
+
 
     public class CollectionViewModel : BaseViewModel
     {
@@ -47,7 +47,7 @@ namespace EComDemo.ViewModels
                 }
             }
         }
-        
+
 
 
 
@@ -92,7 +92,7 @@ namespace EComDemo.ViewModels
                 if (serviceResult.status)
                 {
 
-                    foreach (var item in serviceResult.data.Where(x=>x.name== CollectionPage.name).ToList())
+                    foreach (var item in serviceResult.data.Where(x => x.name == CollectionPage.name).ToList())
                     {
                         FavoriteItem objUser = App.Database.GetProduct(item.id);
                         string Favorite = "heartblack.png";
@@ -106,7 +106,7 @@ namespace EComDemo.ViewModels
                         Items.Add(new ProductData { favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                     }
-                    
+
                 }
                 Loader = false;
             }
@@ -128,7 +128,7 @@ namespace EComDemo.ViewModels
                 {
 
 
-                   
+
                 });
             }
         }
@@ -138,11 +138,6 @@ namespace EComDemo.ViewModels
 
 
 
-        
-
-
-
-      
 
 
 
@@ -153,7 +148,40 @@ namespace EComDemo.ViewModels
 
 
 
-      
+        private ObservableCollection<string> _item = new ObservableCollection<string>();
+        public ObservableCollection<string> Item
+        {
+            get
+            {
+                return _item;
+            }
+            set
+            {
+                if (_item != value)
+                {
+                    _item = value;
+                    OnPropertyChanged(nameof(Item));
+                }
+            }
+        }
+        public void PageList()
+        {
+
+
+
+
+            Item.Clear();
+            Item = new ObservableCollection<string>();
+            Item.Add("Looks I Love");
+            Item.Add("Vacation-Ready");
+            Item.Add("Office Approved Attrire");
+            Item.Add("Celab Looks");
+        }
+
+
+
+
+
 
 
     }
