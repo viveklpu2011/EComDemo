@@ -18,6 +18,7 @@ using System.Linq;
 using EComDemo.Models;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using EComDemo.Dependency;
 
 namespace EComDemo.ViewModels
 {
@@ -235,28 +236,31 @@ namespace EComDemo.ViewModels
             {
                 return new Command(async (data) =>
                 {
-                var result = Items.Where(x => x.selectedImg == true).ToList();
+                    var result = Items.Where(x => x.selectedImg == true).ToList();
                     if (result.Count > 0)
                     {
-                        string img = "";
-                        foreach (var item in result)
-                        {
-                            img += item.image + "\n";
-                        }
+                        //string img = "";
+                        //foreach (var item in result)
+                        //{
+                        //    img += item.image + "\n";
+                        //}
 
-                        ShareUri(img);
+                        //ShareUri(img);
+                        DependencyService.Get<IShare>().Share("", "", result.FirstOrDefault().image);
+
                     }
+
                 });
-             
-                 
+
+
             }
         }
 
 
 
-        public  void ShareUri(string uri)
+        public void ShareUri(string uri)
         {
-             Share.RequestAsync(new ShareTextRequest
+            Share.RequestAsync(new ShareTextRequest
             {
                 Uri = uri,
                 Title = ""
