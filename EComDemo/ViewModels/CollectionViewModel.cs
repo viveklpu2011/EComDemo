@@ -239,14 +239,14 @@ namespace EComDemo.ViewModels
                     var result = Items.Where(x => x.selectedImg == true).ToList();
                     if (result.Count > 0)
                     {
-                        //string img = "";
-                        //foreach (var item in result)
-                        //{
-                        //    img += item.image + "\n";
-                        //}
+                        string img = "";
+                        foreach (var item in result)
+                        {
+                            img += item.image + "\n";
+                        }
 
-                        //ShareUri(img);
-                        DependencyService.Get<IShare>().Share("", "", result.FirstOrDefault().image);
+                        ShareUri(img);
+                       // DependencyService.Get<IShare>().Share("", "", result.FirstOrDefault().image);
 
                     }
 
