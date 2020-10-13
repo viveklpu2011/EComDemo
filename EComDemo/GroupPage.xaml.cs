@@ -17,11 +17,15 @@ namespace EComDemo
         public GroupPage()
         {
             InitializeComponent();
+           
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
             groupViewModel = new GroupViewModel(Navigation);
             groupViewModel.PageLoad();
             BindingContext = groupViewModel;
         }
-
-       
     }
 }

@@ -4,8 +4,8 @@
              x:Class="EComDemo.AddCollectionPage" Title="Create a New Collection">
     <ContentPage.Content>
         <StackLayout Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <Entry x:Name="txtCollection" FontSize="Medium" Placeholder="Collection Name"/>
-            <Button CornerRadius="3" FontAttributes="Bold" FontSize="Medium" TextColor="Black" BackgroundColor="#86f7f5" Text="Create Collection"/>
+            <Entry x:Name="txtCollection" Text="{Binding CollectionTxt}" FontSize="Medium" Placeholder="Collection Name"/>
+            <Button Command="{Binding AddCommand}" CornerRadius="3" FontAttributes="Bold" FontSize="Medium" TextColor="Black" BackgroundColor="#86f7f5" Text="Create Collection"/>
 
             <Label Margin="0,20,0,0" Text="Popular Ideas" TextColor="Black" FontSize="Medium"/>
             <ListView ItemSelected="itemLst_ItemSelected"  ItemsSource="{Binding Item,Mode=TwoWay}"     x:Name="itemLst"

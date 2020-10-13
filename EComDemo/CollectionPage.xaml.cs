@@ -21,6 +21,8 @@ namespace EComDemo
             collectionViewModel = new CollectionViewModel(Navigation);
             collectionViewModel.PageLoad();
             BindingContext = collectionViewModel;
+
         }
+        
     }
 }

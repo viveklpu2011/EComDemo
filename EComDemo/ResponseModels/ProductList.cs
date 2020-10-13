@@ -16,9 +16,10 @@ namespace EComDemo.ResponseModels
         public int ratecount { get; set; }
         public string category { get; set; }
         public string favorite { get; set; }
+        public bool selectedImg { get; set; }
 
 
-       
+
 
     }
     public class ProductList

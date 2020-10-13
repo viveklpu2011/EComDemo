@@ -17,6 +17,7 @@ using EComDemo.Utils;
 using System.Linq;
 using EComDemo.Models;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace EComDemo.ViewModels
 {
@@ -103,7 +104,7 @@ namespace EComDemo.ViewModels
 
 
 
-                        Items.Add(new ProductData { favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                        Items.Add(new ProductData { selectedImg = false, favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                     }
 
@@ -119,8 +120,24 @@ namespace EComDemo.ViewModels
 
 
 
-
-        public Command SortCommand
+        private string collectionTxt
+        {
+            get;
+            set;
+        }
+        public string CollectionTxt
+        {
+            get { return collectionTxt; }
+            set
+            {
+                if (collectionTxt != value)
+                {
+                    collectionTxt = value;
+                    OnPropertyChanged("CollectionTxt");
+                }
+            }
+        }
+        public Command AddCommand
         {
             get
             {
@@ -128,6 +145,61 @@ namespace EComDemo.ViewModels
                 {
 
 
+                    try
+                    {
+                        if (!HttpRequest.CheckConnection())
+                        {
+                            return;
+                        }
+                        string error = string.Empty;
+
+
+                        if (string.IsNullOrWhiteSpace(CollectionTxt))
+                        {
+                            error += "Please provide collection";
+                        }
+                        if (!string.IsNullOrWhiteSpace(error))
+                        {
+
+                            return;
+                        }
+
+
+
+                        var postData = new UBProduct() { PName = CollectionTxt.Trim() };
+                        var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(postData);
+                        var userinfo = await HttpRequest.PostRequest(ServiceConfigrations.BaseUrl, ServiceConfigrations.SaveCollectionUrl, jsonString);
+                        var serviceResult = JsonConvert.DeserializeObject<ProductList>(userinfo.Result);
+
+
+
+
+
+                        if (serviceResult.status)
+                        {
+
+
+
+
+
+                            await navigation.PopAsync();
+
+                        }
+                        else
+                        {
+
+
+                        }
+
+
+
+                    }
+                    catch (Exception ex)
+                    {
+
+
+
+                    }
 
                 });
             }
@@ -138,11 +210,58 @@ namespace EComDemo.ViewModels
 
 
 
+        public Command SelectCommand
+        {
+            get
+            {
+                return new Command(async (data) =>
+                {
+                    var item = data as ProductData;
+                    var index = Items.IndexOf(Items.Where(x => x.id == item.id).FirstOrDefault());
+                    Items.RemoveAt(index);
+                    bool select = false;
+                    if (item.selectedImg == false)
+                    {
+                        select = true;
+                    }
+                    Items.Insert(index, new ProductData { selectedImg = select, favorite = item.favorite, category = item.category, description = item.description, id = item.id, image = item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                });
+            }
+        }
+
+        public Command ShareCommand
+        {
+            get
+            {
+                return new Command(async (data) =>
+                {
+                var result = Items.Where(x => x.selectedImg == true).ToList();
+                    if (result.Count > 0)
+                    {
+                        string img = "";
+                        foreach (var item in result)
+                        {
+                            img += item.image + "\n";
+                        }
+
+                        ShareUri(img);
+                    }
+                });
+             
+                 
+            }
+        }
 
 
 
-
-
+        public  void ShareUri(string uri)
+        {
+             Share.RequestAsync(new ShareTextRequest
+            {
+                Uri = uri,
+                Title = ""
+            });
+        }
 
 
 

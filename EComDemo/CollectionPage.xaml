@@ -14,9 +14,18 @@
                             AbsoluteLayout.LayoutFlags="All">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
+                        
                         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
-                        <Frame    VerticalOptions="Start"
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+
+
+
+                                <Frame  Grid.Row="0"  VerticalOptions="Start"
                HasShadow="False"
                 HorizontalOptions="Start"
                Padding="0"
@@ -77,7 +86,17 @@
                         </Frame>
 
 
+                                <StackLayout IsVisible="{Binding selectedImg}"  Opacity="0.4" BackgroundColor="Black"  Grid.Row="0"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                    <Image VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" HeightRequest="25" WidthRequest="25" Source="check.png"/>
+                                </StackLayout>
+                            </Grid>
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer  Command="{Binding Source={x:Reference colView}, Path=BindingContext.SelectCommand}"
+                               CommandParameter="{Binding .}" />
+                            </StackLayout.GestureRecognizers>
                         </StackLayout>
+                        
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
@@ -87,8 +106,8 @@
 
             <controls:LoaderView AbsoluteLayout.LayoutBounds="0,0,1,1" IsVisible="{Binding Loader}"
                             AbsoluteLayout.LayoutFlags="All"/>
-            
+          
         </AbsoluteLayout>
-        
+        <Button  Command="{Binding ShareCommand}" Text="Share" Grid.Row="1" TextColor="Black" BackgroundColor="Silver"/>
     </Grid>
 </ContentPage>
