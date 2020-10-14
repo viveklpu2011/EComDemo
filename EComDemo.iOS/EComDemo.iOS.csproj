@@ -165,4 +165,10 @@
   <ItemGroup>
     <BundleResource Include="Resources\check.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_checkbox_silver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_checkbox_sliver.png" />
+  </ItemGroup>
 </Project>

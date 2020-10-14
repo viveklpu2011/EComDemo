@@ -31,4 +31,19 @@ namespace EComDemo.ResponseModels
         public IList<ProductData> data { get; set; }
 
     }
+
+
+    public class UBProductSave
+    {
+        public UBProductSave()
+        {
+            Data = new List<UBProductId>();
+        }
+        public string Name { get; set; }
+        public List<UBProductId> Data { get; set; }
+    }
+    public class UBProductId
+    {
+        public int Id { get; set; }
+    }
 }

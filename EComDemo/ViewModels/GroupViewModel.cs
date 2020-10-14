@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace EComDemo.ViewModels
 {
-    
+
     public class GroupViewModel : BaseViewModel
     {
         private INavigation navigation;
@@ -46,7 +46,7 @@ namespace EComDemo.ViewModels
                 }
             }
         }
-        
+
 
 
 
@@ -68,7 +68,7 @@ namespace EComDemo.ViewModels
         }
         public async void PageLoad()
         {
-            
+
             Loader = true;
 
             try
@@ -95,10 +95,10 @@ namespace EComDemo.ViewModels
                     foreach (var item in serviceResult.Data)
                     {
 
-                        Items.Add(new UBProduct {  NewCollection=false,ProductCollection=true, TotalProduct=item.TotalProduct,  PName=item.PName, Id = item.Id, PImg1 = ServiceConfigrations.BaseImg + item.PImg1, PImg2 = ServiceConfigrations.BaseImg + item.PImg2, PImg3 = ServiceConfigrations.BaseImg + item.PImg3, PImg4 = ServiceConfigrations.BaseImg + item.PImg4 });
+                        Items.Add(new UBProduct { NewCollection = false, ProductCollection = true, TotalProduct = item.TotalProduct, PName = item.PName, Id = item.Id, PImg1 = ServiceConfigrations.BaseImg + item.PImg1, PImg2 = ServiceConfigrations.BaseImg + item.PImg2, PImg3 = ServiceConfigrations.BaseImg + item.PImg3, PImg4 = ServiceConfigrations.BaseImg + item.PImg4 });
 
                     }
-                        Items.Add(new UBProduct { NewCollection = true, ProductCollection = false, PName ="New Collection", Id = 0, PImg1= "add.png" });
+                    Items.Add(new UBProduct { NewCollection = true, ProductCollection = false, PName = "New Collection", Id = 0, PImg1 = "add.png" });
                 }
                 Loader = false;
             }
@@ -127,8 +127,17 @@ namespace EComDemo.ViewModels
                     }
                     else
                     {
-                        CollectionPage.name = result.PName;
-                        navigation.PushAsync(new CollectionPage());
+                        if (result.TotalProduct != 0)
+                        {
+                            CollectionPage.name = result.PName;
+                            navigation.PushAsync(new CollectionPage());
+                        }
+                        else
+                        {
+                            ProductsPage.name = result.PName;
+                            App.Current.MainPage = new NavigationPage(new ProductsPage()) { BarBackgroundColor = Color.FromHex("#ffec19") };
+
+                        }
                     }
                 });
             }
@@ -139,17 +148,6 @@ namespace EComDemo.ViewModels
 
 
 
-        
-       
-
-        
-
-        
-
-
-
-
-        
 
 
 
@@ -159,9 +157,20 @@ namespace EComDemo.ViewModels
 
 
 
- 
 
-      
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

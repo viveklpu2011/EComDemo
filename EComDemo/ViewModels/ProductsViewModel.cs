@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
@@ -22,12 +21,11 @@ using EComDemo.Dependency;
 
 namespace EComDemo.ViewModels
 {
-
-
-    public class CollectionViewModel : BaseViewModel
+   
+    public class ProductsViewModel : BaseViewModel
     {
         private INavigation navigation;
-        public CollectionViewModel(INavigation navigation)
+        public ProductsViewModel(INavigation navigation)
         {
             this.navigation = navigation;
         }
@@ -94,18 +92,10 @@ namespace EComDemo.ViewModels
                 if (serviceResult.status)
                 {
 
-                    foreach (var item in serviceResult.data.Where(x => x.name == CollectionPage.name).ToList())
+                    foreach (var item in serviceResult.data)
                     {
-                        FavoriteItem objUser = App.Database.GetProduct(item.id);
-                        string Favorite = "heartblack.png";
-                        if (objUser != null)
-                        {
-                            Favorite = "redheart.png";
-                        }
 
-
-
-                        Items.Add(new ProductData { selectedImg = false, favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                        Items.Add(new ProductData { selectedImg = false, favorite = "ic_checkbox_silver.png", category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                     }
 
@@ -145,7 +135,7 @@ namespace EComDemo.ViewModels
                 return new Command(async (data) =>
                 {
 
-                    
+
                     try
                     {
                         if (!HttpRequest.CheckConnection())
@@ -183,8 +173,7 @@ namespace EComDemo.ViewModels
 
 
 
-                            ProductsPage.name = CollectionTxt;
-                            App.Current.MainPage = new NavigationPage(new ProductsPage()) { BarBackgroundColor = Color.FromHex("#ffec19") };
+                            await navigation.PopAsync();
 
                         }
                         else
@@ -222,34 +211,79 @@ namespace EComDemo.ViewModels
                     var index = Items.IndexOf(Items.Where(x => x.id == item.id).FirstOrDefault());
                     Items.RemoveAt(index);
                     bool select = false;
+                    string img = "ic_checkbox_silver.png";
                     if (item.selectedImg == false)
                     {
                         select = true;
+                        img = "ic_checkbox_sliver.png";
                     }
-                    Items.Insert(index, new ProductData { selectedImg = select, favorite = item.favorite, category = item.category, description = item.description, id = item.id, image = item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                    Items.Insert(index, new ProductData { selectedImg = select, favorite = img, category = item.category, description = item.description, id = item.id, image = item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
                 });
             }
         }
 
-        public Command ShareCommand
+        public Command AddProductCommand
         {
             get
             {
                 return new Command(async (data) =>
                 {
-                    var result = Items.Where(x => x.selectedImg == true).ToList();
-                    if (result.Count > 0)
+
+                    var cn = Items.Where(x => x.selectedImg == true).ToList();
+                    if (cn.Count > 0)
                     {
-                        string img = "";
-                        foreach (var item in result)
+                        try
                         {
-                            img += item.image + "\n";
+                            if (!HttpRequest.CheckConnection())
+                            {
+                                return;
+                            }
+
+                            List<UBProductId> lst = new List<UBProductId>();
+                            foreach (var item in cn)
+                            {
+                                lst.Add(new UBProductId { Id = item.id });
+                            }
+
+                            var postData = new UBProductSave() { Name = ProductsPage.name.Trim(), Data = lst };
+                            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(postData);
+                            var userinfo = await HttpRequest.PostRequest(ServiceConfigrations.BaseUrl, ServiceConfigrations.SaveProductUrl, jsonString);
+                            var serviceResult = JsonConvert.DeserializeObject<ProductList>(userinfo.Result);
+
+
+
+
+
+                            if (serviceResult.status)
+                            {
+
+
+                                App.Current.MainPage = new NavigationPage(new GroupPage()) { BarBackgroundColor = Color.FromHex("#ffec19") };
+
+
+
+
+                            }
+                            else
+                            {
+
+
+                            }
+
+
+
+                        }
+                        catch (Exception ex)
+                        {
+
+
+
                         }
 
-                        ShareUri(img);
-                       // DependencyService.Get<IShare>().Share("", "", result.FirstOrDefault().image);
+
 
                     }
+
 
                 });
 
@@ -259,49 +293,7 @@ namespace EComDemo.ViewModels
 
 
 
-        public void ShareUri(string uri)
-        {
-            Share.RequestAsync(new ShareTextRequest
-            {
-                Uri = uri,
-                Title = ""
-            });
-        }
-
-
-
-
-
-        private ObservableCollection<string> _item = new ObservableCollection<string>();
-        public ObservableCollection<string> Item
-        {
-            get
-            {
-                return _item;
-            }
-            set
-            {
-                if (_item != value)
-                {
-                    _item = value;
-                    OnPropertyChanged(nameof(Item));
-                }
-            }
-        }
-        public void PageList()
-        {
-
-
-
-
-            Item.Clear();
-            Item = new ObservableCollection<string>();
-            Item.Add("Looks I Love");
-            Item.Add("Vacation-Ready");
-            Item.Add("Office Approved Attrire");
-            Item.Add("Celab Looks");
-        }
-
+        
 
 
 

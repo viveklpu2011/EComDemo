@@ -12,6 +12,7 @@ namespace EComDemo.ServiceConfigration
         public static string OrderUrl => "api/uDriver/getAllProduct/";
         public static string BProductUrl => "api/uDriver/getAllBProduct/";
         public static string SaveCollectionUrl => "api/uDriver/saveCollection";
+        public static string SaveProductUrl => "api/uDriver/saveProduct";
 
     }
 }
