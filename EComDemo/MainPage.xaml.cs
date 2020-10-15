@@ -52,6 +52,7 @@ namespace EComDemo
             animation.Add(0, 0.2, textFieldChangeOpacity);
 
             animation.Commit(this, "Slide", 16, 300, Easing.Linear);
+            mainViewModel.SelectedFilter();
         }
 
         void btnclear_Clicked(System.Object sender, System.EventArgs e)
@@ -103,6 +104,11 @@ namespace EComDemo
                 imgBtn.Source = "list.png";
                 
             }
+
+            //lstLyt.BackgroundColor = Color.FromHex("#e3f5a6");
+            //sortLyt.BackgroundColor = Color.Transparent;
+            //filterLyt.BackgroundColor = Color.Transparent;
+
         }
 
        

@@ -41,8 +41,7 @@
           RowDefinitions="*,60">
         <AbsoluteLayout Background="#f2f4f6" Grid.Row="0">
 
-
-
+          
 
             <CollectionView  AbsoluteLayout.LayoutBounds="0,0,1,1" ItemsSource="{Binding Items, Mode=OneWay}" ItemTemplate="{controls:GridDataTemplateSelector}"  x:Name="lstView"      
                             AbsoluteLayout.LayoutFlags="All" Margin="5" BackgroundColor="Transparent">
@@ -152,30 +151,40 @@
               HeightRequest="60"
               VerticalOptions="EndAndExpand"
               HorizontalOptions="FillAndExpand">
-            <ImageButton Source="list.png" Clicked="ImageButton_Clicked" x:Name="imgBtn"
+            <StackLayout x:Name="lstLyt" BackgroundColor="{Binding ListLyt}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <ImageButton Source="list.png" Clicked="ImageButton_Clicked" x:Name="imgBtn"  
                          BackgroundColor="Transparent"
                          WidthRequest="30"
-                         HorizontalOptions="Center"
-                         VerticalOptions="Center"
+                         HorizontalOptions="CenterAndExpand"
+                         VerticalOptions="CenterAndExpand"
                          HeightRequest="40"
                          Aspect="Fill"/>
+            </StackLayout>
             <BoxView BackgroundColor="LightGray"
                      Grid.Column="1"
                      Margin="0,10"/>
-            <Button Text="Sort" Command="{Binding SortCommand}"
-                    Grid.Column="2"
+            <StackLayout x:Name="sortLyt" Grid.Column="2" BackgroundColor="{Binding SortLyt}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                <Button  Text="Sort" Command="{Binding SortCommand}"
+                    
                     BackgroundColor="Transparent"
-                    FontAttributes="Bold"
+                    FontAttributes="Bold" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
                     FontSize="18"
                     TextColor="Black"
                     ImageSource="{local:EmbeddedImage EComDemo.Images.sortnew.png}"
                     ContentLayout="left,0"/>
+            </StackLayout>
             <BoxView BackgroundColor="LightGray"
                      Grid.Column="3"
                      Margin="0,10"/>
-            <Button Text="Filter"
-                    Grid.Column="4"
-                    BackgroundColor="Transparent"
+            <StackLayout x:Name="filterLyt" Grid.Column="4" BackgroundColor="{Binding FilterLyt}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                
+
+
+                <Button Text="Filter"
+                    
+                    BackgroundColor="Transparent" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
                     FontAttributes="Bold"
                     FontSize="18"
                     x:Name="btnfilter"
@@ -183,6 +192,7 @@
                     TextColor="Black"
                     ImageSource="{local:EmbeddedImage EComDemo.Images.filternew.png}"
                     ContentLayout="left,0"/>
+            </StackLayout>
         </Grid>
     </Grid>
 </ContentPage>

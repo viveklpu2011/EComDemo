@@ -120,9 +120,13 @@ namespace EComDemo.ViewModels
         }
         public async void PageLoad()
         {
+            ListLyt = "#e3f5a6";
+            SortLyt = "Transparent";
+            FilterLyt = "Transparent";
+
             CountFilter = "Filters(0)";
             Loader = true;
-            
+
             try
             {
                 if (!HttpRequest.CheckConnection())
@@ -153,9 +157,9 @@ namespace EComDemo.ViewModels
                             Favorite = "redheart.png";
                         }
 
-                        
 
-                        Items.Add(new ProductData {  favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+
+                        Items.Add(new ProductData { favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                     }
                     TotalItem = serviceResult.data.Count.ToString() + " Products";
@@ -180,7 +184,9 @@ namespace EComDemo.ViewModels
                 return new Command(async (data) =>
                 {
 
-
+                    ListLyt = "Transparent";
+                    SortLyt = "#e3f5a6";
+                    FilterLyt = "Transparent";
                     Loader = true;
 
 
@@ -266,7 +272,7 @@ namespace EComDemo.ViewModels
                                     {
                                         Favorite = "redheart.png";
                                     }
-                                    Items.Add(new ProductData {  favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                                    Items.Add(new ProductData { favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                                 }
                                 Order = true;
@@ -281,7 +287,7 @@ namespace EComDemo.ViewModels
                                     {
                                         Favorite = "redheart.png";
                                     }
-                                    Items.Add(new ProductData {  favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                                    Items.Add(new ProductData { favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                                 }
                                 Order = false;
@@ -294,6 +300,10 @@ namespace EComDemo.ViewModels
                     {
                         Loader = false;
                     }
+
+
+                   
+
                 });
             }
         }
@@ -504,7 +514,7 @@ namespace EComDemo.ViewModels
                             {
                                 Favorite = "redheart.png";
                             }
-                            Items.Add(new ProductData {  favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                            Items.Add(new ProductData { favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                         }
 
@@ -519,7 +529,7 @@ namespace EComDemo.ViewModels
                             {
                                 Favorite = "redheart.png";
                             }
-                            Items.Add(new ProductData {   favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
+                            Items.Add(new ProductData { favorite = Favorite, category = item.category, description = item.description, id = item.id, image = ServiceConfigrations.BaseImg + item.image, name = item.name, price = item.price, ratecount = item.ratecount, title = item.title, });
 
                         }
 
@@ -538,17 +548,19 @@ namespace EComDemo.ViewModels
 
 
 
- 
 
 
 
-         
+
+
 
 
 
         public async void ChangeLyt()
         {
-             
+            ListLyt = "#e3f5a6";
+            SortLyt = "Transparent";
+            FilterLyt = "Transparent";
             Loader = true;
 
 
@@ -662,24 +674,86 @@ namespace EComDemo.ViewModels
         }
 
 
-        public void Favorite(int type,int id)
+        public void Favorite(int type, int id)
         {
-             
+
             if (type == 1)
             {
-                
+
                 FavoriteItem obj = new FavoriteItem();
                 obj.ProductId = id;
                 App.Database.SaveProduct(obj);
             }
             else
             {
-                
+
                 App.Database.ClearProduct(id);
             }
         }
 
 
+
+
+
+        private string listLyt
+        {
+            get;
+            set;
+        }
+        public string ListLyt
+        {
+            get { return listLyt; }
+            set
+            {
+                if (listLyt != value)
+                {
+                    listLyt = value;
+                    OnPropertyChanged("ListLyt");
+                }
+            }
+        }
+        private string sortLyt
+        {
+            get;
+            set;
+        }
+        public string SortLyt
+        {
+            get { return sortLyt; }
+            set
+            {
+                if (sortLyt != value)
+                {
+                    sortLyt = value;
+                    OnPropertyChanged("SortLyt");
+                }
+            }
+        }
+        private string filterLyt
+        {
+            get;
+            set;
+        }
+        public string FilterLyt
+        {
+            get { return filterLyt; }
+            set
+            {
+                if (filterLyt != value)
+                {
+                    filterLyt = value;
+                    OnPropertyChanged("FilterLyt");
+                }
+            }
+        }
+
+        public void SelectedFilter()
+        {
+            ListLyt = "Transparent";
+            SortLyt = "Transparent";
+            FilterLyt = "#e3f5a6";
+
+        }
 
     }
 }
