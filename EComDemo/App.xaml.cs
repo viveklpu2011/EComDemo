@@ -12,7 +12,8 @@ namespace EComDemo
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainPage()) { BarBackgroundColor=Color.FromHex("#ffec19") };
+            MainPage = new NavigationPage(new MainTabbedPage()) { BarBackgroundColor=Color.FromHex("#ffec19") };
+
         }
         static DbCls database;
         public static DbCls Database
