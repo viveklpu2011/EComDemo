@@ -88,7 +88,9 @@ namespace EComDemo.iOS
             // Set the font for the title.
            item.SetTitleTextAttributes(new UITextAttributes() { Font = UIFont.FromName("GillSans-UltraBold", 12), TextColor = Color.FromHex("#757575").ToUIColor() }, UIControlState.Normal);
            item.SetTitleTextAttributes(new UITextAttributes() { Font = UIFont.FromName("GillSans-UltraBold", 12), TextColor = Color.FromHex("#3C9BDF").ToUIColor() }, UIControlState.Selected);
-           
+
+            //rahul
+            UITabBar.Appearance.BackgroundImage = UIImage.FromFile("rect.png");
         }
 
 
@@ -112,6 +114,9 @@ namespace EComDemo.iOS
             if (base.ViewControllers != null)
             {
                 UITabBar.Appearance.SelectionIndicatorImage = GetImageWithColorPosition(Color.DarkGray.ToUIColor(), new CGSize(UIScreen.MainScreen.Bounds.Width / base.ViewControllers.Length, tabbedController.TabBar.Bounds.Size.Height + 4), new CGSize(UIScreen.MainScreen.Bounds.Width / base.ViewControllers.Length, 4));
+               
+                //rahul
+                UITabBar.Appearance.BackgroundImage=UIImage.FromFile("rectangle.png");
             }
 
         }
